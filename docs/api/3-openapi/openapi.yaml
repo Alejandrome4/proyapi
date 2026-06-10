@@ -1,0 +1,169 @@
+openapi: 3.0.3
+info:
+  title: API REST de Gestión de Campos de Fútbol
+  description: Contrato de diseño para el sistema intermodular de alquiler de instalaciones de fútbol. Proyecto evaluable del módulo LMSGI - 1º DAW.
+  version: 1.0.0
+servers:
+  - url: https://api.polideportivo-futbol.local/v1
+    description: Servidor de desarrollo local
+
+paths:
+  /reservas:
+    get:
+      summary: Obtener el listado de partidos reservados por el jugador
+      description: Devuelve un array con el historial y próximas reservas del usuario autenticado.
+      responses:
+        '200':
+          description: Listado cargado con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+    post:
+      summary: Alquilar un campo de fútbol
+      description: Envía los datos del formulario del frontend para abrir una solicitud de reserva de campo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaInput'
+      responses:
+        '201':
+          description: Alquiler registrado. Queda en estado pendiente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Error de validación (horario ocupado o fechas pasadas).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRespuesta'
+
+  /reservas/{id}:
+    get:
+      summary: Ver detalles de una reserva de partido concreta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalles de la reserva localizados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '404':
+          description: El ID del partido no existe.
+
+    delete:
+      summary: Cancelar la reserva de un campo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Cancelación procesada con éxito. No devuelve cuerpo de texto.
+        '404':
+          description: No se encontró ese registro de reserva.
+
+components:
+  schemas:
+    Reserva:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 415
+        usuario_id:
+          type: integer
+          example: 89
+        recurso_id:
+          type: integer
+          example: 2
+        recurso_nombre:
+          type: string
+          example: "Campo de Césped Artificial F7-A"
+        fecha_inicio:
+          type: string
+          format: date-time
+          example: "2026-05-12T19:00:00Z"
+        fecha_fin:
+          type: string
+          format: date-time
+          example: "2026-05-12T20:30:00Z"
+        num_personas:
+          type: integer
+          minimum: 1
+          example: 14
+        estado:
+          type: string
+          enum: [pendiente, confirmada, cancelada]
+          example: "pendiente"
+        precio:
+          type: number
+          format: float
+          example: 45.00
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-04-10T17:05:00Z"
+        actualizado_en:
+          type: string
+          format: date-time
+          example: "2026-04-10T17:05:00Z"
+
+    ReservaInput:
+      type: object
+      required:
+        - recurso_id
+        - fecha_inicio
+        - fecha_fin
+        - num_personas
+      properties:
+        recurso_id:
+          type: integer
+          example: 2
+        fecha_inicio:
+          type: string
+          format: date-time
+          example: "2026-05-12T19:00:00Z"
+        fecha_fin:
+          type: string
+          format: date-time
+          example: "2026-05-12T20:30:00Z"
+        num_personas:
+          type: integer
+          minimum: 1
+          example: 14
+        notas:
+          type: string
+          example: "Pachanga semanal con los del barrio"
+
+    ErrorRespuesta:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Datos de entrada inválidos"
+        detalles:
+          type: array
+          items:
+            type: object
+            properties:
+              campo:
+                type: string
+                example: "fecha_inicio"
+              mensaje:
+                type: string
+                example: "El campo de fútbol ya está reservado en ese horario"
