@@ -1,0 +1,13 @@
+{
+  "id": 415,
+  "usuario_id": 89,
+  "recurso_id": 2,
+  "fecha_inicio": "2026-05-12T19:00:00Z",
+  "fecha_fin": "2026-05-12T20:30:00Z",
+  "num_personas": 14,
+  "estado": "pendiente",
+  "precio": 45.00,
+  "notas": "Pachanga semanal con los del barrio",
+  "creado_en": "2026-04-10T17:05:00Z",
+  "actualizado_en": "2026-04-10T17:05:00Z"
+}
