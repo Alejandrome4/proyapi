@@ -1,0 +1,13 @@
+{
+  "error": "Error al tramitar el alquiler",
+  "detalles": [
+    {
+      "campo": "fecha_inicio",
+      "mensaje": "Ese horario ya está pillado por otro partido"
+    },
+    {
+      "campo": "num_personas",
+      "mensaje": "No se puede reservar con 0 personas"
+    }
+  ]
+}
