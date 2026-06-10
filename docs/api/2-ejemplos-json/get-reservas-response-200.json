@@ -1,0 +1,24 @@
+[
+  {
+    "id": 415,
+    "recurso_id": 2,
+    "recurso_nombre": "Campo Césped Artificial F7",
+    "fecha_inicio": "2026-05-12T19:00:00Z",
+    "fecha_fin": "2026-05-12T20:30:00Z",
+    "num_personas": 14,
+    "estado": "confirmada",
+    "precio": 45.00,
+    "creado_en": "2026-04-10T17:05:00Z"
+  },
+  {
+    "id": 432,
+    "recurso_id": 5,
+    "recurso_nombre": "Pista Fútbol Sala Pabellón",
+    "fecha_inicio": "2026-05-18T21:00:00Z",
+    "fecha_fin": "2026-05-18T22:00:00Z",
+    "num_personas": 10,
+    "estado": "pendiente",
+    "precio": 30.00,
+    "creado_en": "2026-04-12T09:15:00Z"
+  }
+]
